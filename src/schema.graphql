@@ -1,0 +1,49 @@
+type Query {
+  movies(filter: MoviesFilterInput): Movies
+  moviesByIds(ids: [Int]): [Movie]
+  genres: [Genre]
+}
+#  search by many fields:
+input MoviesFilterInput {
+  page: Int
+  sortBy: String
+  sortDirection: SORT_DIRECTION
+  includeAdult: Boolean
+  year: Int
+  primaryReleaseYear: Int
+  genre: Int
+}
+
+enum SORT_DIRECTION {
+  desc
+  asc
+}
+
+type Movies {
+  page: Int!
+  totalResults: Int!
+  totalPages: Int!
+  results: [Movie!]!
+}
+
+type Movie {
+  id: ID!
+  title: String!
+  originalTitle: String!
+  releaseDate(format: String): String!
+  posterPath: String!
+  adult: Boolean
+  backdropPath: String
+  originalLanguage: String
+  overview: String
+  popularity: Float
+  video: Boolean
+  voteCount: Int
+  voteAvarage: Float
+  genres: [Genre]
+}
+
+type Genre {
+  id: Int!
+  name: String!
+}
