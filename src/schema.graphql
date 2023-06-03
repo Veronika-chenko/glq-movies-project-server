@@ -28,19 +28,19 @@ type Movies {
 
 type Movie {
   id: ID!
-  title: String!
-  originalTitle: String!
-  releaseDate(format: String): String!
-  posterPath: String!
   adult: Boolean
   backdropPath: String
+  genres: [Genre]
   originalLanguage: String
+  originalTitle: String!
   overview: String
   popularity: Float
+  posterPath: String!
+  releaseDate(format: String): String!
+  title: String!
   video: Boolean
-  voteCount: Int
   voteAvarage: Float
-  genres: [Genre]
+  voteCount: Int
 }
 
 type Genre {
