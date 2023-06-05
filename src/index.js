@@ -1,24 +1,57 @@
 const fs = require('fs');
 const path = require('path');
+const express = require('express');
+const cors = require('cors');
+const { ApolloServer } = require('@apollo/server');
+const { expressMiddleware } = require('@apollo/server/express4');
 
 require('dotenv').config();
 
-const { ApolloServer } = require('apollo-server');
-
+const { PORT } = process.env;
 const Query = require('./resolvers/Query');
 
+// graphql
 const resolvers = {
   Query,
 };
 
+const typeDefs = fs.readFileSync(
+  path.join(__dirname, 'schema.graphql'),
+  'utf8'
+);
+// context
 const context = ({ req, res }) => ({
   locale: req?.headers?.locale || 'en-US',
 });
 
-const server = new ApolloServer({
-  typeDefs: fs.readFileSync(path.join(__dirname, 'schema.graphql'), 'utf8'),
-  resolvers,
-  context,
-});
+const app = express();
+const port = PORT || 4000;
 
-server.listen().then(({ url }) => console.log(`Server is running on ${url}`));
+(async function () {
+  try {
+    const server = new ApolloServer({
+      typeDefs,
+      resolvers,
+      context,
+    });
+
+    await server.start();
+
+    app.use(cors());
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+    app.use('/graphql', expressMiddleware(server));
+
+    app.get('/', function (req, res) {
+      res.send('Movies server');
+    });
+
+    app.listen(port, () => {
+      console.log(`🚀 Express ready at http://localhost:${port}`);
+      console.log(`🚀 Graphql ready at http://localhost:${port}/graphql`);
+    });
+  } catch (error) {
+    console.error(`Failed to launch application with error: ${error.message}`);
+    process.exit(1);
+  }
+})();
