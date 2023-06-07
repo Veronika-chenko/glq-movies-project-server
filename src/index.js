@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
+const logger = require('morgan');
 const cors = require('cors');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
@@ -37,6 +38,7 @@ const port = PORT || 4000;
 
     await server.start();
 
+    app.use(logger('dev'));
     app.use(cors());
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
