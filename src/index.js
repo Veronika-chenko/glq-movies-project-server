@@ -34,6 +34,7 @@ const port = PORT || 80;
       typeDefs,
       resolvers,
       context,
+      introspection: true,
     });
 
     await server.start();
