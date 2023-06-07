@@ -26,7 +26,7 @@ const context = ({ req, res }) => ({
 });
 
 const app = express();
-const port = PORT || 4000;
+const port = PORT || 80;
 
 (async function () {
   try {
