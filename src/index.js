@@ -24,10 +24,6 @@ const typeDefs = fs.readFileSync(
   path.join(__dirname, 'schema.graphql'),
   'utf8'
 );
-// context
-const context = ({ req, res }) => ({
-  locale: req?.headers?.locale || 'en-US',
-});
 
 const app = express();
 const port = PORT || 80;
@@ -38,7 +34,6 @@ const port = PORT || 80;
     const server = new ApolloServer({
       typeDefs,
       resolvers,
-      context,
       introspection: true,
       plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     });
@@ -49,7 +44,14 @@ const port = PORT || 80;
     app.use(cors());
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
-    app.use('/graphql', expressMiddleware(server));
+    app.use(
+      '/graphql',
+      expressMiddleware(server, {
+        context: async ({ req }) => ({
+          locale: req?.headers?.locale || 'en-US',
+        }),
+      })
+    );
 
     app.get('/', function (req, res) {
       res.send('Movies server');
