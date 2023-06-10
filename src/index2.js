@@ -5,11 +5,6 @@ const logger = require('morgan');
 const cors = require('cors');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
-const {
-  ApolloServerPluginDrainHttpServer,
-} = require('@apollo/server/plugin/drainHttpServer');
-const { json } = require('body-parser');
-const http = require('http');
 
 require('dotenv').config();
 
@@ -35,22 +30,20 @@ const port = PORT || 80;
 
 (async function () {
   try {
-    const httpServer = http.createServer(app);
     const server = new ApolloServer({
       typeDefs,
       resolvers,
       context,
       introspection: true,
-      plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     });
 
     await server.start();
 
     app.use(logger('dev'));
-    // app.use(cors());
-    // app.use(express.json());
+    app.use(cors());
+    app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
-    app.use('/graphql', cors(), json(), expressMiddleware(server));
+    app.use('/graphql', expressMiddleware(server));
 
     app.get('/', function (req, res) {
       res.send('Movies server');
