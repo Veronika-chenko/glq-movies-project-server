@@ -1,6 +1,6 @@
 type Query {
   movies(filter: MoviesFilterInput): Movies
-  moviesByIds(ids: [Int]): [Movie]
+  moviesByIds(ids: [Int]): [MovieDetails]
   genres: [Genre]
 }
 #  search by many fields:
@@ -25,11 +25,30 @@ type Movies {
   totalPages: Int!
   results: [Movie!]!
 }
-
+# was changed
 type Movie {
   id: ID!
   adult: Boolean
   backdropPath: String
+  genres: [Int]
+  # genres: [Genre]
+  originalLanguage: String
+  originalTitle: String!
+  overview: String
+  popularity: Float
+  posterPath: String!
+  releaseDate(format: String): String!
+  title: String!
+  video: Boolean
+  voteAverage: Float
+  voteCount: Int
+}
+
+type MovieDetails {
+  id: ID!
+  adult: Boolean
+  backdropPath: String
+  # genres: [Int]
   genres: [Genre]
   originalLanguage: String
   originalTitle: String!
@@ -39,7 +58,7 @@ type Movie {
   releaseDate(format: String): String!
   title: String!
   video: Boolean
-  voteAvarage: Float
+  voteAverage: Float
   voteCount: Int
 }
 

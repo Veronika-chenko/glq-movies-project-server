@@ -1,6 +1,7 @@
 const { getList } = require('../modules/genres');
 const { getDetails, discoverMovies } = require('../modules/movies');
-const { Movie } = require('../modules/movies/entities/Movie');
+// const { Movie } = require('../modules/movies/entities/Movie');
+const { MovieDetails } = require('../modules/movies/entities/MovieDetails');
 
 async function movies(parent, args, { locale }) {
   // console.log('🚀 ~ args.filter:', args.filter);
@@ -13,7 +14,8 @@ async function moviesByIds(parent, { ids }, { locale }) {
   const requests = ids.map((id) => getDetails(id, locale));
 
   const data = await Promise.all(requests);
-  const movies = data.map(({ data }) => new Movie(data));
+  // const movies = data.map(({ data }) => new Movie(data));
+  const movies = data.map(({ data }) => new MovieDetails(data));
   // console.log('🚀 ~ movies:', movies);
   return movies;
 }

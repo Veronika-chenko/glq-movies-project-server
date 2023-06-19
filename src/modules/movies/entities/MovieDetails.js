@@ -1,7 +1,7 @@
 const { format } = require('date-fns');
 const { IMAGE_BASE_PATH } = process.env;
 
-class Movie {
+class MovieDetails {
   constructor(movie) {
     this.movie = movie;
     this.id = movie.id;
@@ -19,19 +19,20 @@ class Movie {
     this.voteCount = movie.vote_count;
     this.voteAverage = movie.vote_average;
 
-    // this.genres = movie.genre_ids;
+    this.genres = movie.genres;
   }
 
-  genres() {
-    if (this.movie.genre_ids) {
-      // console.log('🚀 ~ Movie ~ genre_ids:', this.movie.genre_ids);
-      return this.movie.genre_ids;
-    }
-    if (this.movie.genres) {
-      // console.log('🚀 ~ Movie ~ this.movie.genres:', this.movie.genres);
-      return this.movie.genres;
-    }
-  }
+  //   genres() {
+  //     if (this.movie.genre_ids) {
+  //       // console.log('🚀 ~ Movie ~ genre_ids:', this.movie.genre_ids);
+
+  //       return this.movie.genre_ids;
+  //     }
+  //     if (this.movie.genres) {
+  //       console.log('🚀 ~ Movie ~ this.movie.genres:', this.movie.genres);
+  //       return this.movie.genres;
+  //     }
+  //   }
 
   releaseDate(params) {
     if (!this.movie.release_date) return 'Unknown';
@@ -42,4 +43,4 @@ class Movie {
   }
 }
 
-module.exports = { Movie };
+module.exports = { MovieDetails };
