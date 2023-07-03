@@ -2,6 +2,7 @@ const { getList } = require('../modules/genres');
 const { getDetails, discoverMovies } = require('../modules/movies');
 // const { Movie } = require('../modules/movies/entities/Movie');
 const { MovieDetails } = require('../modules/movies/entities/MovieDetails');
+const { getTrailer } = require('../modules/video');
 
 async function movies(parent, args, { locale }) {
   // console.log('🚀 ~ args.filter:', args.filter);
@@ -25,8 +26,14 @@ async function genres(_, {}, { locale }) {
   return data;
 }
 
+async function trailer(parent, { id }, { locale }) {
+  const data = await getTrailer(id, locale);
+  return data;
+}
+
 module.exports = {
   movies,
   moviesByIds,
   genres,
+  trailer,
 };

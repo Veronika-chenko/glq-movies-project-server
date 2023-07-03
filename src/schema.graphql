@@ -2,6 +2,7 @@ type Query {
   movies(filter: MoviesFilterInput): Movies
   moviesByIds(ids: [Int]): [MovieDetails]
   genres: [Genre]
+  trailer(id: Int): Trailer
 }
 #  search by many fields:
 input MoviesFilterInput {
@@ -65,4 +66,10 @@ type MovieDetails {
 type Genre {
   id: Int!
   name: String!
+}
+
+type Trailer {
+  id: Int!
+  name: String!
+  key: String!
 }
