@@ -1,4 +1,4 @@
-# Movie Recommendation Server
+# Movies Recommendation Server
 
 This is the backend server for the [Movie Recommendation React App](https://github.com/Veronika-chenko/glq-movies-project-client).
 
